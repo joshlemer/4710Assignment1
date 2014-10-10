@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.mlab as mplml
 from matplotlib import pyplot as plt
+import random
 
 
 def load_data_from_file(f):
@@ -16,38 +17,24 @@ def load_data_from_file(f):
 
 thedata = load_data_from_file("phonedata.txt")
 thelabels = load_data_from_file("activitylabels.txt")
+thelabelsmap = ['a','b','c','d','e','f']
+thelabelsstrings = []
+for i in thelabels:
+    thelabelsstrings.append(thelabelsmap[int(i) - 1])
 
-# Some imports will be useful
-# import numpy as np
-# import scipy as sp
-# May want some matplotlib, numpy.linalg or other imports
-
+thelabelsstrings = np.matrix(thelabelsstrings)
+thelabelsmap = np.matrix(thelabelsmap)
 
 """
 Perform PCA, and visualize
 Note that for PCA you may use built-in functions, you should not though for your k-means implementation
 """
+
 B = mplml.PCA(thedata)
-print B.numrows
-print B.numcols
-plt.scatter(B.Y[:,0],B.Y[:,1],c=np.array(thelabels.transpose()))
+plt.scatter(B.Y[:,0],B.Y[:,1], c=np.array(thelabels.transpose()), label='asdf')
+plt.legend(numpoints=1)
+plt.title('PCA projection of phonedata in two dimensions')
 plt.show()
-"""
-#plt.plot(B.Y[:,0],B.Y[:,1],c=array(thelabels.transpose()))
-plt.plot(B.Y[0:20,0],B.Y[0:20,1], 'o', markersize=7,\
-                 color='blue', alpha=0.5, label='class1')
-plt.plot(B.Y[20:40,0], B.Y[20:40,1], '^', markersize=7,\
-                 color='red', alpha=0.5, label='class2')
-
-plt.xlabel('x_values')
-plt.ylabel('y_values')
-plt.xlim([-4,4])
-plt.ylim([-4,4])
-plt.legend()
-plt.title('Transformed samples with class labels from matplotlib.mlab.PCA()')
-plt.show()
-"""
-
 
 # For visualization, something like the following may help
 # scatter(X_r[:,0],X_r[:,1],c=array(thelabels.transpose()))
@@ -61,7 +48,37 @@ There are built in functions for this - but the should be done by you!
 # May wish to initialize k-value, iterations and centroids
 kvalue = 6
 numiters = 10
+rows, columns = thedata.shape
 centroid = np.zeros((kvalue,561))
+cluster_assignments = [random.randint(1,kvalue) for _ in range(rows)]
+#print cluster_assignments
+
+for iteration in range(numiters):
+    a = 5
+    #calculate new centroids
+    kclusters = [[] for x in range(kvalue)]
+    index = 0
+    for assignment in cluster_assignments:
+        kclusters [assignment - 1].append(thedata[index])
+        index += 1
+
+
+
+
+    ##calculate mean of all points assigned to cluster
+
+
+    ##reassign points to closest centroid
+    #for point in thedata
+    ##find nearest cluster c_nearest and make cluster_assignments[point] = c_nearest
+
+
+#np.linalg.norm(x1-x2)
+
+#centroids: np.mean(myKMeans.thedata[:,:], axis=0)
+
+
+
 
 # initialize cluster centroid positions
 
