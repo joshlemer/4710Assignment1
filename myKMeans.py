@@ -53,6 +53,7 @@ centroid = np.zeros((kvalue,561))
 cluster_assignments = [random.randint(1,kvalue) for _ in range(rows)]
 #print cluster_assignments
 
+centroids = [0 for x in range(kvalue)]
 for iteration in range(numiters):
     a = 5
     #calculate new centroids
@@ -63,9 +64,13 @@ for iteration in range(numiters):
         index += 1
 
     ##calculate mean of all points assigned to clusters
-    centroids = []
+    index = 0
     for cluster in kclusters:
-        centroids.append(np.mean(cluster, axis=0))
+        if(len(cluster) > 0):
+            centroids[index]= np.mean(cluster, axis=0)
+
+        index += 1
+
 
     index = 0
     for point in thedata:
