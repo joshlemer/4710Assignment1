@@ -31,7 +31,7 @@ Note that for PCA you may use built-in functions, you should not though for your
 """
 
 B = mplml.PCA(thedata)
-plt.scatter(B.Y[:,0],B.Y[:,1], c=np.array(thelabels.transpose()), label='asdf')
+plt.scatter(B.Y[:,0],B.Y[:,1], c=np.array(thelabels.transpose()), label=['asdf','hello'])
 plt.legend(numpoints=1)
 plt.title('PCA projection of phonedata in two dimensions')
 plt.show()
@@ -62,10 +62,16 @@ for iteration in range(numiters):
         kclusters [assignment - 1].append(thedata[index])
         index += 1
 
+    ##calculate mean of all points assigned to clusters
+    centroids = []
+    for cluster in kclusters:
+        centroids.append(np.mean(cluster, axis=0))
 
-
-
-    ##calculate mean of all points assigned to cluster
+    index = 0
+    for point in thedata:
+        centroid_distances = [np.linalg.norm(point - x) for x in centroids]
+        cluster_assignments[index] = np.argmin(centroid_distances)
+        index += 1
 
 
     ##reassign points to closest centroid
